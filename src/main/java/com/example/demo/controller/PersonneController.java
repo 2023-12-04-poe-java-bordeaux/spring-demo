@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Personne;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,5 +17,11 @@ public class PersonneController {
         personnes.add(new Personne("JC", "Dominguez"));
         personnes.add(new Personne("Marie", "Dupont"));
         return personnes;
+    }
+
+    // POST /personnes
+    @PostMapping("personnes")
+    public void addPersonne(@RequestBody Personne newPersonne){
+        System.out.println(newPersonne);
     }
 }

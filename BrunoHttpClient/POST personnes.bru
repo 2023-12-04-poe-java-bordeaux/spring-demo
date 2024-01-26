@@ -1,0 +1,18 @@
+meta {
+  name: POST personnes
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/personnes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "prenom":"Jean-Claude",
+    "nom":"DUSS"
+  }
+}
