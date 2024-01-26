@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Personne;
 import com.example.demo.service.Annuaire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +28,15 @@ public class PersonneController {
 
     // POST /personnes
     @PostMapping("personnes")
-    public void addPersonne(@RequestBody Personne newPersonne){
-        System.out.println(newPersonne);
-        annuaire.add(newPersonne);
+    public ResponseEntity<?> addPersonne(@RequestBody Personne newPersonne){
+       if(newPersonne.getNom().isBlank())
+           return ResponseEntity
+                   .badRequest()
+                   .body("le nom est obligatoire");
+       else {
+           annuaire.add(newPersonne);
+           return ResponseEntity.status(HttpStatus.CREATED).body(newPersonne);
+       }
     }
 
     // GET /personnes/4
