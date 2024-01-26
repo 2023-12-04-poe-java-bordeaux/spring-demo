@@ -34,4 +34,10 @@ public class PersonneController {
     public Personne getById(@PathVariable("id") Integer id){
             return annuaire.findById(id);
     }
+
+    // DELETE /personnes/4
+    @DeleteMapping("personnes/{id}")
+    public void delete(@PathVariable("id") Integer id){
+        annuaire.delete(id);
+    }
 }

@@ -23,4 +23,8 @@ public class Annuaire {
     public Personne findById(Integer id){
         return personnes.get(id);
     }
+
+    public void delete(Integer id) {
+        personnes.remove(id);
+    }
 }
