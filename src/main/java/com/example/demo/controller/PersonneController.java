@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Personne;
 import com.example.demo.service.Annuaire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,8 +34,12 @@ public class PersonneController {
 
     // GET /personnes/4
     @GetMapping("personnes/{id}")
-    public Personne getById(@PathVariable("id") Integer id){
-            return annuaire.findById(id);
+    public ResponseEntity<Personne> getById(@PathVariable("id") Integer id){
+        Personne personne = annuaire.findById(id);
+        if(personne == null)
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(personne);
     }
 
     // DELETE /personnes/4
