@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Personne;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class Annuaire {
 
     private int idCount;

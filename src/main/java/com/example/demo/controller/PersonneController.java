@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Personne;
 import com.example.demo.service.Annuaire;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.List;
 @RequestMapping("api")
 public class PersonneController {
 
-    private Annuaire annuaire = new Annuaire();
+    @Autowired
+    private Annuaire annuaire;
 
     // GET /personnes
     @GetMapping("personnes")
