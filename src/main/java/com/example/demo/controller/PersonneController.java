@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Personne;
 import com.example.demo.service.Annuaire;
+import com.example.demo.service.AnnuaireDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class PersonneController {
 
     @Autowired
-    private Annuaire annuaire;
+    private AnnuaireDatabase annuaire;
 
     // GET /personnes
     @GetMapping("personnes")
@@ -29,14 +30,16 @@ public class PersonneController {
 
     // POST /personnes
     @PostMapping("personnes")
-    public ResponseEntity<?> addPersonne(@RequestBody Personne newPersonne){
-       if(newPersonne.getNom().isBlank())
+    public ResponseEntity<?> addPersonne(@RequestBody PersonneDTO dto){
+       if(dto.getLastName() != null && dto.getLastName().isBlank())
            return ResponseEntity
                    .badRequest()
                    .body("le nom est obligatoire");
        else {
-           annuaire.add(newPersonne);
-           return ResponseEntity.status(HttpStatus.CREATED).body(newPersonne);
+           Personne personne = PersonneMapper.convertDtoToEntity(dto);
+           annuaire.add(personne);
+           PersonneDTO responseDTO = PersonneMapper.convertEntityToDto(personne);
+           return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
        }
     }
 
@@ -63,6 +66,6 @@ public class PersonneController {
     @PutMapping("personnes/{id}")
     public void update(@RequestBody Personne personne
                     , @PathVariable("id") Integer id){
-        annuaire.update(id, personne);
+        annuaire.update(personne);
     }
 }
