@@ -30,7 +30,7 @@ public class AnnuaireDatabase {
        personneRepository.deleteById(id);
     }
 
-    public void update(Integer id, Personne personne) {
+    public void update(Personne personne) {
         personneRepository.save(personne);
     }
 }
