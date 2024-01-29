@@ -42,12 +42,15 @@ public class PersonneController {
 
     // GET /personnes/4
     @GetMapping("personnes/{id}")
-    public ResponseEntity<Personne> getById(@PathVariable("id") Integer id){
+    public ResponseEntity<PersonneDTO> getById(@PathVariable("id") Integer id){
         Optional<Personne> optional = annuaire.findById(id);
         if(optional.isEmpty())
             return ResponseEntity.notFound().build();
-        else
-            return ResponseEntity.ok(optional.get());
+        else {
+            Personne p = optional.get();
+            PersonneDTO dto = PersonneMapper.convertEntityToDto(p);
+            return ResponseEntity.ok(dto);
+        }
     }
 
     // DELETE /personnes/4
