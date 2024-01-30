@@ -3,6 +3,9 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="personnes")
 public class Personne {
@@ -16,6 +19,9 @@ public class Personne {
 
     @ManyToOne
     private Adresse adresse;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Chien> chiens = new ArrayList<>();
 
     public Personne() {
     }
@@ -55,6 +61,18 @@ public class Personne {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    public List<Chien> getChiens() {
+        return chiens;
+    }
+
+    public void setChiens(List<Chien> chiens) {
+        this.chiens = chiens;
+    }
+
+    public void addChien(Chien chien){
+        chiens.add(chien);
     }
 
     @Override

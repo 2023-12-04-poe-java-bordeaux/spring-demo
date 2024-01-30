@@ -1,9 +1,11 @@
 package com.example.demo;
 
 import com.example.demo.dao.AdresseRepository;
+import com.example.demo.dao.ChienRepository;
 import com.example.demo.dao.PersonneRepository;
 import com.example.demo.dao.StageRepository;
 import com.example.demo.model.Adresse;
+import com.example.demo.model.Chien;
 import com.example.demo.model.Personne;
 import com.example.demo.model.Stage;
 import com.example.demo.service.AnnuaireDatabase;
@@ -22,6 +24,8 @@ class JpaRepositoryTests {
 	AdresseRepository adresseRepository;
 	@Autowired
 	StageRepository stageRepository;
+	@Autowired
+	ChienRepository chienRepository;
 
 	@Test
 	void testFindByNom(){
@@ -56,5 +60,28 @@ class JpaRepositoryTests {
 		stageSQL.addStagiaire(marie);
 		stageSQL.addStagiaire(said);
 		stageRepository.save(stageSQL);
+	}
+
+	@Test
+	void testOneToMany(){
+		Chien medor = new Chien("Medor");
+		chienRepository.save(medor);
+
+		Chien rocky = new Chien("Rocky");
+		chienRepository.save(rocky);
+
+		Personne alain = new Personne("Alain", "Dupond");
+		alain.addChien(medor);
+		alain.addChien(rocky);
+		personneRepository.save(alain);
+	}
+
+	@Test
+	void testLectureChiens(){
+		Optional<Personne> optional = personneRepository.findById(9);
+		if(optional.isPresent()){
+			Personne alain = optional.get();
+			alain.getChiens().forEach(chien -> System.out.println(chien.getNom()));
+		}
 	}
 }
