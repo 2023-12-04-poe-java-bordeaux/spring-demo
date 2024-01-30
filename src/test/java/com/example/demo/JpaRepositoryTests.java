@@ -2,8 +2,10 @@ package com.example.demo;
 
 import com.example.demo.dao.AdresseRepository;
 import com.example.demo.dao.PersonneRepository;
+import com.example.demo.dao.StageRepository;
 import com.example.demo.model.Adresse;
 import com.example.demo.model.Personne;
+import com.example.demo.model.Stage;
 import com.example.demo.service.AnnuaireDatabase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ class JpaRepositoryTests {
 	PersonneRepository personneRepository;
 	@Autowired
 	AdresseRepository adresseRepository;
+	@Autowired
+	StageRepository stageRepository;
 
 	@Test
 	void testFindByNom(){
@@ -32,5 +36,25 @@ class JpaRepositoryTests {
 		Personne alain = new Personne("Alain", "Dupond");
 		alain.setAdresse(adresse);
 		personneRepository.save(alain);
+	}
+
+	@Test
+	void testManyToMany(){
+		Personne alain = new Personne("Alain", "Dupond");
+		personneRepository.save(alain);
+		Personne marie = new Personne("Marie", "Durand");
+		personneRepository.save(marie);
+		Personne said = new Personne("Said", "Dupond");
+		personneRepository.save(said);
+
+		Stage stageJava = new Stage("Java", "pour débutants");
+		stageJava.addStagiaire(alain);
+		stageJava.addStagiaire(marie);
+		stageRepository.save(stageJava);
+
+		Stage stageSQL = new Stage("SQL", "pour administrateurs");
+		stageSQL.addStagiaire(marie);
+		stageSQL.addStagiaire(said);
+		stageRepository.save(stageSQL);
 	}
 }

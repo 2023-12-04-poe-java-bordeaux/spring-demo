@@ -10,6 +10,10 @@ public class Adresse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String rue;
+    private int numero;
+    private String ville;
+
     public Adresse() {
     }
 
@@ -18,10 +22,6 @@ public class Adresse {
         this.numero = numero;
         this.ville = ville;
     }
-
-    private String rue;
-    private int numero;
-    private String ville;
 
     public Integer getId() {
         return id;
